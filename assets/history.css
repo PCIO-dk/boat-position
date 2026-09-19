@@ -1,0 +1,347 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+    background: #f0f2f5;
+}
+
+/* ── Sidebar ────────────────────────────────────────────────────── */
+#sidebar {
+    width: 300px;
+    min-width: 260px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #ddd;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* ── Calendar ───────────────────────────────────────────────────── */
+#cal-section {
+    padding: 12px 12px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.cal-header span {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+}
+
+.cal-nav {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 2px 8px;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.4;
+}
+.cal-nav:hover { background: #f0f0f0; }
+
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.cal-dn {
+    text-align: center;
+    font-size: 10px;
+    color: #aaa;
+    font-weight: 600;
+    padding-bottom: 3px;
+}
+
+.cal-day {
+    text-align: center;
+    font-size: 12px;
+    padding: 4px 1px;
+    border-radius: 4px;
+    line-height: 1;
+    color: #555;
+}
+
+.cal-day.other  { color: #ddd; }
+.cal-day.today  { outline: 1px solid #0057b8; color: #0057b8; }
+
+.cal-day.active {
+    background: #dbeeff;
+    color: #0057b8;
+    font-weight: 700;
+    cursor: pointer;
+}
+.cal-day.active:hover  { background: #bcd9f8; }
+.cal-day.selected      { background: #0057b8 !important; color: #fff !important; }
+
+/* ── Trip list ──────────────────────────────────────────────────── */
+#logbook {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+#logbook-heading {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #aaa;
+    padding: 4px 6px 6px;
+}
+
+.trip-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2px 6px;
+    padding: 9px 10px;
+    border-radius: 7px;
+    cursor: pointer;
+    border: 1px solid #eee;
+    margin-bottom: 5px;
+    background: #fafafa;
+    transition: border-color .15s;
+}
+.trip-card:hover    { border-color: #0057b8; }
+.trip-card.selected { border-color: #e07b00; background: #fff8f0; }
+
+.tc-route { font-size: 13px; font-weight: 600; color: #222; grid-column: 1; }
+.tc-date  { font-size: 11px; color: #999; grid-column: 1; }
+.tc-dist  { font-size: 13px; font-weight: 700; color: #0057b8; grid-column: 2; text-align: right; }
+.tc-dur   { font-size: 11px; color: #bbb; grid-column: 2; text-align: right; }
+
+.empty-msg {
+    padding: 16px 8px;
+    font-size: 13px;
+    color: #bbb;
+    text-align: center;
+}
+
+/* ── Map ────────────────────────────────────────────────────────── */
+#map-wrap { flex: 1; position: relative; }
+#map      { width: 100%; height: 100%; }
+
+/* ── Floating controls on map ───────────────────────────────────── */
+.map-pill {
+    position: absolute;
+    z-index: 1000;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(4px);
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.18);
+}
+
+/* ── Page navigation bar ──────────────────────────────────────────── */
+.pcio-bp-nav {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+.pcio-bp-nav a {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(4px);
+    border: 1.5px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #555;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.pcio-bp-nav-exit { padding: 5px 11px; font-size: 14px; }
+.pcio-bp-nav-exit:hover { background: #ffe8e8 !important; border-color: #c00 !important; color: #c00 !important; }
+.pcio-bp-nav-switch { border-color: #0057b8; color: #0057b8; }
+.pcio-bp-nav-switch:hover { background: #e8f2ff !important; }
+
+/* 3D toggle button – shares the same pill look as the nav links */
+#btn-3d-toggle {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(4px);
+    border: 1.5px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #555;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    white-space: nowrap;
+    cursor: pointer;
+}
+#btn-3d-toggle:disabled { opacity: .4; cursor: default; }
+#btn-3d-toggle:not(:disabled):hover { background: #e8f2ff; border-color: #0057b8; color: #0057b8; }
+#btn-3d-toggle.active { border-color: #0057b8; color: #0057b8; background: #dbeeff; }
+
+#trip-overlay {
+    bottom: 24px;
+    right: 10px;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.8;
+    min-width: 170px;
+    display: none;
+}
+
+#trip-overlay .lbl { font-size: 10px; text-transform: uppercase; color: #999; letter-spacing: .5px; }
+#trip-overlay .val { font-weight: 700; color: #0057b8; }
+#trip-overlay .ov-row { display: flex; gap: 22px; }
+
+/* edit harbour form */
+#edit-harbour-form {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e8e8e8;
+}
+#edit-harbour-form input {
+    width: 100%;
+    margin-top: 2px;
+    margin-bottom: 6px;
+    padding: 4px 7px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+    font-family: inherit;
+}
+#edit-harbour-form input:focus { outline: none; border-color: #0057b8; }
+.edit-btns { display: flex; gap: 6px; margin-top: 4px; }
+.edit-btns button {
+    flex: 1;
+    padding: 4px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+    cursor: pointer;
+}
+#btn-save-harbour     { background: #0057b8; color: #fff; border-color: #0057b8; }
+#btn-save-harbour:hover   { background: #0047a0; }
+#btn-cancel-harbour:hover { background: #eee; }
+#btn-merge-trip {
+    width: 100%;
+    padding: 8px 0;
+    background: none;
+    border: 1px dashed #e07b00;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #e07b00;
+    cursor: pointer;
+    margin-top: 6px;
+}
+#btn-merge-trip:hover { background: #fff8f0; }
+#btn-edit-harbour {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #aaa;
+    font-size: 13px;
+    padding: 0 0 0 4px;
+    line-height: 1;
+}
+#btn-edit-harbour:hover { color: #0057b8; }
+.harbour-field {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+.harbour-field input { flex: 1; margin: 0; }
+.btn-locate {
+    flex-shrink: 0;
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 3px 5px;
+    line-height: 1;
+    color: #666;
+}
+.btn-locate:hover { border-color: #0057b8; color: #0057b8; }
+.btn-locate.working { opacity: .5; cursor: wait; }
+
+#legend {
+    bottom: 24px;
+    left: 10px;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.leg-line {
+    display: inline-block;
+    width: 22px;
+    height: 3px;
+    border-radius: 2px;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+/* ── Mobile / narrow screens ────────────────────────────────────── */
+@media (max-width: 768px) {
+    body { flex-direction: column; }
+
+    #map-wrap { order: 1; flex: 1 1 auto; min-height: 0; }
+
+    /* Sidebar becomes a bottom panel: trip list (left) + route info (right) */
+    #sidebar {
+        order: 2;
+        width: 100%;
+        min-width: 0;
+        height: 34vh;
+        max-height: 34vh;
+        flex-direction: row;
+        border-right: none;
+        border-top: 1px solid #ddd;
+    }
+
+    /* Hide calendar and legend on mobile */
+    #cal-section { display: none; }
+    #legend      { display: none; }
+
+    /* Trip list ~60%: minimized cards, no distance/duration, scrolls */
+    #logbook { flex: 1 1 60%; min-height: 0; padding: 6px 8px; }
+    #logbook-heading { padding: 2px 6px 4px; }
+    .trip-card { padding: 6px 9px; }
+    .tc-dist, .tc-dur { display: none; }
+
+    /* Route info ~40%: inline at the bottom-right, wrapping to stay narrow */
+    #trip-overlay {
+        flex: 0 0 40%;
+        position: static;
+        align-self: stretch;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        background: #fff;
+        border-left: 1px solid #eee;
+        padding: 8px 10px;
+        min-width: 0;
+        line-height: 1.4;
+        overflow-y: auto;
+    }
+    #trip-overlay .val { white-space: normal; overflow-wrap: anywhere; min-width: 0; }
+    #trip-overlay .ov-row { gap: 12px; }
+}

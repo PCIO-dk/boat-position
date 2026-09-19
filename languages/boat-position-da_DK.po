@@ -1,0 +1,460 @@
+# Copyright (C) 2026 PCIO
+# This file is distributed under the GPL2 license.
+# https://www.gnu.org/licenses/gpl-2.0.html
+#
+# Translators:
+# PCIO <info@pcio.dk>, 2026
+msgid ""
+msgstr ""
+"Project-Id-Version: Boat Position 1.3.0\n"
+"Report-Msgid-Bugs-To: https://www.pcio.dk/\n"
+"POT-Creation-Date: 2026-06-07T00:00:00+00:00\n"
+"PO-Revision-Date: 2026-07-04 11:35+0200\n"
+"Last-Translator: PCIO <info@pcio.dk>\n"
+"Language-Team: Danish <info@pcio.dk>\n"
+"Language: da_DK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.9\n"
+"X-Domain: boat-position\n"
+
+#. Plugin Name of the plugin
+msgid "Boat Position"
+msgstr "Båd GPS"
+
+#. Description of the plugin
+msgid "Tracks and displays the boat's GPS position. Receives positions from the boat's router, stores them in the database, and provides a live map and voyage logbook."
+msgstr "Sporer og viser bådens GPS-position. Modtager positioner fra bådens router, gemmer dem i databasen og giver et live-kort og en sejllogshistorik."
+
+#. Author of the plugin
+msgid "PCIO"
+msgstr "PCIO"
+
+# ── Admin settings ────────────────────────────────────────────────────────────
+msgid "Settings"
+msgstr "Indstillinger"
+
+msgid "About"
+msgstr "Om"
+
+msgid "Boat Position Settings"
+msgstr "Båd GPS – indstillinger"
+
+msgid "Boat Position: About"
+msgstr "Båd GPS: Om"
+
+msgid "API"
+msgstr "API"
+
+msgid "API Key"
+msgstr "API-nøgle"
+
+msgid "Save API Key"
+msgstr "Gem API-nøgle"
+
+msgid "(defined in wp-config.php)"
+msgstr "(defineret i wp-config.php)"
+
+#. translators: %1$s and %2$s are code constant/file names
+msgid "Remove the %1$s constant from %2$s to manage the key here instead."
+msgstr "Fjern konstanten %1$s fra %2$s for at styre nøglen her i stedet."
+
+#. translators: %s is the field name
+msgid "Secret key sent by the router in the %s field. Use a long random string."
+msgstr "Hemmelig nøgle sendt af routeren i feltet %s. Brug en lang, tilfældig streng."
+
+msgid "About page not found."
+msgstr "Om-siden blev ikke fundet."
+
+# ── REST API errors ───────────────────────────────────────────────────────────
+msgid "You must be logged in."
+msgstr "Du skal være logget ind."
+
+msgid "You do not have permission to edit trips."
+msgstr "Du har ikke tilladelse til at redigere sejlture."
+
+msgid "No position data available."
+msgstr "Ingen positionsdata tilgængelige."
+
+msgid "Trip not found."
+msgstr "Sejlturen blev ikke fundet."
+
+msgid "Name is required."
+msgstr "Navn er påkrævet."
+
+msgid "Invalid coordinates."
+msgstr "Ugyldige koordinater."
+
+msgid "Harbour not found."
+msgstr "Havnen blev ikke fundet."
+
+msgid "Invalid trip ids."
+msgstr "Ugyldige sejltur-id'er."
+
+msgid "Plan not found."
+msgstr "Planen blev ikke fundet."
+
+msgid "Failed to create plan."
+msgstr "Planen kunne ikke oprettes."
+
+msgid "Waypoint not found."
+msgstr "Waypoint blev ikke fundet."
+
+msgid "Name cannot be empty."
+msgstr "Navn må ikke være tomt."
+
+msgid "API key not configured on the server."
+msgstr "API-nøgle er ikke konfigureret på serveren."
+
+msgid "Unauthorized."
+msgstr "Ikke godkendt."
+
+msgid "Invalid or missing fields: lat, lon, speed (numeric) and gps_time (ISO 8601) are required."
+msgstr "Ugyldige eller manglende felter: lat, lon, speed (numerisk) og gps_time (ISO 8601) er påkrævet."
+
+msgid "lat out of range (-90 to 90)."
+msgstr "lat er uden for område (-90 til 90)."
+
+msgid "lon out of range (-180 to 180)."
+msgstr "lon er uden for område (-180 til 180)."
+
+msgid "speed cannot be negative."
+msgstr "speed må ikke være negativ."
+
+msgid "Failed to store position."
+msgstr "Det lykkedes ikke at gemme positionen."
+
+# ── Live map template ─────────────────────────────────────────────────────────
+msgid "Boat Tracker"
+msgstr "Båd-tracker"
+
+msgid "Back to website"
+msgstr "Tilbage til hjemmesiden"
+
+msgid "Logbook"
+msgstr "Logbog"
+
+msgid "Plans"
+msgstr "Planer"
+
+msgid "Speed"
+msgstr "Fart"
+
+msgid "State"
+msgstr "Status"
+
+msgid "Since"
+msgstr "Siden"
+
+msgid "Duration"
+msgstr "Varighed"
+
+# ── History / logbook template ────────────────────────────────────────────────
+msgid "Boat Logbook &amp; History"
+msgstr "Logbog og historik"
+
+msgid "All Trips"
+msgstr "Alle sejlture"
+
+msgid "⇔ Merge selected trips"
+msgstr "⇔ Flet valgte sejlture"
+
+msgid "Go to live view"
+msgstr "Gå til live-visning"
+
+msgid "Actual route"
+msgstr "Faktisk rute"
+
+msgid "Estimated (no data)"
+msgstr "Estimeret (ingen data)"
+
+msgid "Edit harbour names"
+msgstr "Rediger havnenavne"
+
+msgid "Route"
+msgstr "Rute"
+
+msgid "Distance"
+msgstr "Distance"
+
+msgid "Date"
+msgstr "Dato"
+
+msgid "Start harbour"
+msgstr "Starthavn"
+
+msgid "End harbour"
+msgstr "Sluthavn"
+
+msgid "(unknown)"
+msgstr "(ukendt)"
+
+msgid "Detect from current location"
+msgstr "Find ud fra aktuel position"
+
+msgid "Save"
+msgstr "Gem"
+
+msgid "Cancel"
+msgstr "Annuller"
+
+# ── Voyage plans template ─────────────────────────────────────────────────────
+msgid "Voyage Plans"
+msgstr "Sejlplaner"
+
+msgid "Live map"
+msgstr "Live-kort"
+
+msgid "+ New plan"
+msgstr "+ Ny plan"
+
+msgid "New voyage plan"
+msgstr "Ny sejlplan"
+
+msgid "Title"
+msgstr "Titel"
+
+msgid "e.g. Summer 2026 – Denmark to Norway"
+msgstr "f.eks. Sommer 2026 – Danmark til Norge"
+
+msgid "Notes"
+msgstr "Noter"
+
+msgid "Optional notes"
+msgstr "Valgfrie noter"
+
+msgid "Create"
+msgstr "Opret"
+
+msgid "No voyage plans yet."
+msgstr "Ingen sejlplaner endnu."
+
+msgid "Edit plan title"
+msgstr "Rediger plantitel"
+
+msgid "Waypoint"
+msgstr "Waypoint"
+
+msgid "ETA"
+msgstr "ETA"
+
+msgid "Days"
+msgstr "Dage"
+
+msgid "No waypoints in this plan yet."
+msgstr "Ingen waypoints i denne plan endnu."
+
+msgid "+ Add waypoint"
+msgstr "+ Tilføj waypoint"
+
+msgid "Pick existing harbour or waypoint"
+msgstr "Vælg eksisterende havn eller waypoint"
+
+msgid "Type to search…"
+msgstr "Skriv for at søge…"
+
+msgid "Name"
+msgstr "Navn"
+
+msgid "Harbour or waypoint name"
+msgstr "Havn- eller waypointnavn"
+
+msgid "Latitude"
+msgstr "Breddegrad"
+
+msgid "Longitude"
+msgstr "Længdegrad"
+
+msgid "Add"
+msgstr "Tilføj"
+
+# ── JavaScript strings (injected via wp_add_inline_script) ───────────────────
+msgid "Trips on {date}"
+msgstr "Sejlture den {date}"
+
+msgid "No trips on {date}"
+msgstr "Ingen sejlture den {date}"
+
+msgid "No trips found"
+msgstr "Ingen sejlture fundet"
+
+msgid "Start"
+msgstr "Start"
+
+msgid "End"
+msgstr "Slut"
+
+msgid "{count} trips selected"
+msgstr "{count} sejlture valgt"
+
+msgid "No trip position available."
+msgstr "Ingen position tilgængelig for sejlturen."
+
+msgid "Could not detect harbour: "
+msgstr "Kunne ikke registrere havn: "
+
+msgid "⇔ Merge {count} selected trips"
+msgstr "⇔ Flet {count} valgte sejlture"
+
+msgid "Merge {count} trips into one?"
+msgstr "Flet {count} sejlture til én?"
+
+msgid "Earliest:"
+msgstr "Tidligst:"
+
+msgid "Latest:"
+msgstr "Senest:"
+
+msgid "The earliest trip absorbs the others. This cannot be undone."
+msgstr "Den tidligste sejltur absorberer de andre. Dette kan ikke fortrydes."
+
+msgid "Merge failed."
+msgstr "Fletning mislykkedes."
+
+msgid "Save failed."
+msgstr "Gemning mislykkedes."
+
+msgid "Delete trip"
+msgstr "Slet sejltur"
+
+msgid "Delete this logbook entry?"
+msgstr "Slet denne logbogspost?"
+
+msgid "Are you absolutely sure? This cannot be undone."
+msgstr "Er du helt sikker? Dette kan ikke fortrydes."
+
+msgid "Delete failed."
+msgstr "Sletning mislykkedes."
+
+msgid "No data"
+msgstr "Ingen data"
+
+msgid "Stopped"
+msgstr "Stoppet"
+
+msgid "Delete"
+msgstr "Slet"
+
+msgid "Delete \"{name}\"?"
+msgstr "Slet \"{name}\"?"
+
+msgid "Visible on map – click to hide"
+msgstr "Synlig på kortet – klik for at skjule"
+
+msgid "Hidden from map – click to show"
+msgstr "Skjult fra kortet – klik for at vise"
+
+msgid "Delete plan"
+msgstr "Slet plan"
+
+msgid "Edit waypoints"
+msgstr "Rediger waypoints"
+
+msgid "View waypoints"
+msgstr "Se waypoints"
+
+msgid "(Untitled)"
+msgstr "(Uden titel)"
+
+msgid "Delete plan \"{title}\" and all its waypoints?"
+msgstr "Slet planen \"{title}\" og alle dens waypoints?"
+
+msgid "Today"
+msgstr "I dag"
+
+msgid "Edit"
+msgstr "Rediger"
+
+msgid "Rebase from here"
+msgstr "Rebasér herfra"
+
+msgid "Drag to reorder"
+msgstr "Træk for at ændre rækkefølge"
+
+msgid "Shift"
+msgstr "Forskyd"
+
+msgid "and all following waypoints by"
+msgstr "og alle efterfølgende waypoints med"
+
+msgid "days"
+msgstr "dage"
+
+msgid "Apply"
+msgstr "Anvend"
+
+msgid "(positive = later, negative = earlier)"
+msgstr "(positiv = senere, negativ = tidligere)"
+
+msgid "Delete waypoint \"{name}\"?"
+msgstr "Slet waypoint \"{name}\"?"
+
+msgid "(plan)"
+msgstr "(plan)"
+
+msgid "Total distance"
+msgstr "Samlet afstand"
+
+# ── Blog integration ──────────────────────────────────────────────────
+msgid "Boat Log"
+msgstr "Bådlog"
+
+msgid "Boat position"
+msgstr "Bådposition"
+
+msgid "No location set"
+msgstr "Ingen placering valgt"
+
+msgid "Use current boat position"
+msgstr "Brug bådens nuværende position"
+
+msgid "Clear"
+msgstr "Ryd"
+
+msgid "Fetching current position…"
+msgstr "Henter nuværende position…"
+
+msgid "No boat position available yet."
+msgstr "Ingen bådposition tilgængelig endnu."
+
+msgid "View on map"
+msgstr "Vis på kort"
+
+msgid "Read"
+msgstr "Læs"
+
+msgid "Write blog here"
+msgstr "Skriv blog her"
+
+msgid "Blog"
+msgstr "Blog"
+
+# ── Route editors (settings) ──────────────────────────────────────────
+msgid "Route editors updated."
+msgstr "Ruteredaktører opdateret."
+
+msgid "Route editors"
+msgstr "Ruteredaktører"
+
+msgid "Grant permission to manage routes, harbours and voyage plans. Only users who can already author posts (Author or higher) are listed. Administrators always have access."
+msgstr "Giv tilladelse til at administrere ruter, havne og sejlplaner. Kun brugere, der allerede kan skrive indlæg (Forfatter eller højere), vises. Administratorer har altid adgang."
+
+msgid "User"
+msgstr "Bruger"
+
+msgid "Role"
+msgstr "Rolle"
+
+msgid "Manage routes"
+msgstr "Administrér ruter"
+
+msgid "No eligible users found."
+msgstr "Ingen kvalificerede brugere fundet."
+
+msgid "Save route editors"
+msgstr "Gem ruteredaktører"
+
+msgid "You do not have permission to do this."
+msgstr "Du har ikke tilladelse til dette."

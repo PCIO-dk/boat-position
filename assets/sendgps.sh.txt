@@ -1,0 +1,85 @@
+#!/bin/sh
+# sendgps.sh — Send the current GPS position to the boat-position API.
+# Designed for Teltonika RUTX50 (RutOS / OpenWrt).
+#
+# Setup on the router:
+#   1. Copy this file to /home/root/sendgps.sh
+#   2. chmod +x /home/root/sendgps.sh
+#   3. Add a cron job (System -> Administration -> Cron):
+#        */1 * * * * /home/root/sendgps.sh >> /tmp/sendgps.log 2>&1
+#
+# The site URL and API key below are filled in automatically when you
+# download this script from the plugin's "About" page.
+
+URL="{{INGEST_URL}}"
+API_KEY="{{API_KEY}}"
+
+QUEUE_DIR="/root/gpsqueue"
+mkdir -p "$QUEUE_DIR"
+
+# Read the current GPS fix from gpsd via ubus
+GPS=$(ubus call gpsd position)
+
+LAT=$(echo "$GPS" | jsonfilter -e '@.latitude')
+LON=$(echo "$GPS" | jsonfilter -e '@.longitude')
+SPEED=$(echo "$GPS" | jsonfilter -e '@.speed_vtg_knots')
+COURSE=$(echo "$GPS" | jsonfilter -e '@.angle')
+FIX_STATUS=$(echo "$GPS" | jsonfilter -e '@.fix_status')
+FIX_QUALITY=$(echo "$GPS" | jsonfilter -e '@.fix_quality')
+FIX_MODE=$(echo "$GPS" | jsonfilter -e '@.fix_curr_mode')
+#ACCURACY=$(echo "$GPS" | jsonfilter -e '@.accuracy')
+#SATELLITES=$(echo "$GPS" | jsonfilter -e '@.satellites')
+GPS_UTC=$(echo "$GPS" | jsonfilter -e '@.utc_timestamp')
+
+if [ -z "$GPS_UTC" ]; then
+    echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ") No GPS UTC timestamp, skipping."
+    exit 1
+fi
+TIME=$(date -u -d "@$GPS_UTC" +"%Y-%m-%dT%H:%M:%SZ")
+
+# Require valid coordinates before sending
+if [ -z "$LAT" ] || [ -z "$LON" ]; then
+    echo "$TIME No GPS position, skipping."
+    exit 1
+fi
+
+# Require a valid fix. fix_curr_mode alone can report a stale 2D/3D value, so
+# validate against the receiver's live fix_status and fix_quality instead.
+if [ "$FIX_STATUS" != "1" ] || [ "$FIX_QUALITY" = "0" ]; then
+    echo "$TIME No valid GPS fix (status=$FIX_STATUS quality=$FIX_QUALITY mode=$FIX_MODE), skipping."
+    exit 1
+fi
+
+# Default missing optional fields
+[ -z "$COURSE" ] && COURSE="0"
+[ -z "$SPEED" ] && SPEED="0"
+
+#
+# Store the request as its own queue file so nothing is lost when offline
+#
+ID=$(date -u +"%Y%m%d%H%M%S")
+TMPFILE="$QUEUE_DIR/${ID}_$$.tmp"
+MSGFILE="$QUEUE_DIR/${ID}_$$.req"
+
+cat > "$TMPFILE" <<EOF
+apikey=$API_KEY&lat=$LAT&lon=$LON&speed=$SPEED&course=$COURSE&gps_time=$TIME
+EOF
+
+# Atomically publish the queued request
+mv "$TMPFILE" "$MSGFILE"
+
+#
+# Flush the queue: send every stored request, oldest first
+#
+for FILE in $(ls "$QUEUE_DIR"/*.req 2>/dev/null | sort)
+do
+    HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 10 --max-time 30 -X POST "$URL" --data @"$FILE")
+
+    if [ "$HTTP_CODE" = "200" ]; then
+        echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ") Sent $(basename "$FILE")"
+        rm -f "$FILE"
+    else
+        echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ") Send failed (HTTP $HTTP_CODE)"
+        break
+    fi
+done

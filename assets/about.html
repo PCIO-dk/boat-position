@@ -1,0 +1,177 @@
+<h1>Boat Position Tracker</h1>
+
+<p>A WordPress plugin that receives live GPS positions from a boat, stores them in a database, and provides a live map view and historical logbook.</p>
+
+<h2>Pages</h2>
+
+<p>
+  <em>Live map — <code>/boat-position/map</code></em>
+</p>
+
+<p>
+  <em>Logbook — <code>/boat-position/history</code></em>
+</p>
+
+<h2>REST API endpoints</h2>
+
+<h3>POST <code>/wp-json/boat-position/v1/ingest</code> — Ingest position</h3>
+
+<p>Called by the router on the boat. Requires API key authentication.</p>
+
+<p><strong>POST fields:</strong></p>
+
+<table>
+  <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+  <tr><td><code>apikey</code></td><td>string</td><td>Secret key — set in Settings → Boat Position or as <code>PCIO_BOAT_POSITION_API_KEY</code> in <code>wp-config.php</code></td></tr>
+  <tr><td><code>lat</code></td><td>float</td><td>Latitude (−90 to 90)</td></tr>
+  <tr><td><code>lon</code></td><td>float</td><td>Longitude (−180 to 180)</td></tr>
+  <tr><td><code>speed</code></td><td>float</td><td>Speed in knots (≥ 0)</td></tr>
+  <tr><td><code>course</code></td><td>float</td><td>Heading in degrees (optional, defaults to 0.0)</td></tr>
+  <tr><td><code>gps_time</code></td><td>string</td><td>GPS timestamp (ISO 8601 / UTC)</td></tr>
+</table>
+
+<p><strong>Response:</strong> <code>200 OK</code> with <code>{"status":"ok","id":N}</code> on success, or a WP REST error object on failure.</p>
+
+<h3>GET <code>/wp-json/boat-position/v1/latest</code> — Current position</h3>
+
+<p>Returns the most recent position record as JSON.</p>
+
+<pre><code>{
+  "lat": 55.123,
+  "lon": 12.456,
+  "speed": 5.2,
+  "course": 270.0,
+  "time": 1716400000
+}</code></pre>
+
+<h3>GET <code>/wp-json/boat-position/v1/trips</code> — Trip data</h3>
+
+<table>
+  <tr><th>Route</th><th>Description</th></tr>
+  <tr><td><code>GET /trips</code></td><td>All closed trips, newest first</td></tr>
+  <tr><td><code>GET /trips/active-dates</code></td><td>Array of <code>YYYY-MM-DD</code> strings that have at least one trip (used to highlight calendar days)</td></tr>
+  <tr><td><code>GET /trips/{id}/points</code></td><td>All legs with waypoints for a trip (used to draw the route on the map)</td></tr>
+  <tr><td><code>POST /trips/{id}/harbours</code></td><td>Update harbour names for a trip (requires WP editor role)</td></tr>
+  <tr><td><code>POST /trips/merge</code></td><td>Merge two trips into one (requires WP editor role)</td></tr>
+  <tr><td><code>GET /harbours</code></td><td>All known harbours with coordinates and radius</td></tr>
+  <tr><td><code>GET /legs/{id}/points</code></td><td>Raw waypoints for a single leg</td></tr>
+</table>
+
+<h2>Trip engine state machine</h2>
+
+<p>The <code>class-pcio-bp-trip-engine</code> class processes raw positions (where <code>leg_id IS NULL</code>) and assigns them to trips and legs.</p>
+
+<img src="{{PLUGIN_URL}}assets/state-machine.jpg" alt="Trip engine state machine diagram" style="max-width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;background:#fff;">
+
+<p><strong>Tuning constants</strong> (define in <code>wp-config.php</code> to override defaults):</p>
+
+<table>
+  <tr><th>Constant</th><th>Default</th><th>Description</th></tr>
+  <tr><td><code>PCIO_BP_SPEED_UNDERWAY_KN</code></td><td><code>1.5</code></td><td>Knots above which the boat is considered moving</td></tr>
+  <tr><td><code>PCIO_BP_STOP_CONFIRM_COUNT</code></td><td><code>3</code></td><td>Consecutive slow readings needed to close a trip</td></tr>
+  <tr><td><code>PCIO_BP_NO_DATA_GAP_SECS</code></td><td><code>180</code></td><td>Gap (seconds) that triggers an estimated leg</td></tr>
+  <tr><td><code>PCIO_BP_TRIP_END_GAP_SECS</code></td><td><code>28800</code></td><td>Gap (seconds) that closes the trip entirely (8 h)</td></tr>
+  <tr><td><code>PCIO_BP_BATCH_SIZE</code></td><td><code>500</code></td><td>Max positions to process per call</td></tr>
+</table>
+
+<h2>Database tables</h2>
+
+<p>All tables use the WordPress table prefix (default <code>wp_</code>).</p>
+
+<table>
+  <tr><th>Table</th><th>Description</th></tr>
+  <tr><td><code>wp_boat_positions</code></td><td>Raw GPS positions (<code>lat</code>, <code>lon</code>, <code>speed</code>, <code>course</code>, <code>gps_time_utc</code>, <code>leg_id</code>)</td></tr>
+  <tr><td><code>wp_boat_trips</code></td><td>One row per sailing trip (<code>started_at</code>, <code>ended_at</code>, <code>distance_nm</code>, <code>harbour_start</code>, <code>harbour_end</code>, <code>state</code>)</td></tr>
+  <tr><td><code>wp_boat_legs</code></td><td>Individual legs within a trip; estimated legs are flagged for display as dashed lines</td></tr>
+  <tr><td><code>wp_boat_harbours</code></td><td>Known harbours used to label trip start/end points</td></tr>
+</table>
+
+<h2>Configuration</h2>
+
+<p>The API key can be set in <strong>Settings → Boat Position</strong>, or hard-coded in <code>wp-config.php</code>:</p>
+
+<pre><code>define( 'PCIO_BOAT_POSITION_API_KEY', 'your-secret-key' );</code></pre>
+
+<p>When the constant is defined, the settings field is shown as read-only and the database option is ignored.</p>
+
+<h2>Pages (summary)</h2>
+
+<ul>
+  <li><strong>Live map</strong> — <code>/boat-position/map</code> — Leaflet map using OpenStreetMap/OpenSeaMap. Polls <code>/latest</code> every 30 seconds and renders a rotating arrow icon when underway, or a dot when stopped.</li>
+  <li><strong>Logbook</strong> — <code>/boat-position/history</code> — Calendar sidebar highlights days with recorded trips. Clicking a day loads trip routes on the map. WordPress editors can update harbour names and merge trips inline.</li>
+</ul>
+
+<p>Both URLs are registered automatically on plugin activation. If they return 404, go to <strong>Settings → Permalinks</strong> and click <strong>Save Changes</strong> to flush the rewrite rules.</p>
+
+<h2>Testing the ingest endpoint</h2>
+
+<p>Send a single test position from a command prompt (Windows):</p>
+
+<pre><code>curl.exe -X POST https://&lt;your-site&gt;/wp-json/boat-position/v1/ingest ^
+  -d "apikey=&lt;secret-key&gt;" ^
+  -d "lat=55.10" ^
+  -d "lon=10.10" ^
+  -d "speed=7.1" ^
+  -d "course=182.4" ^
+  -d "gps_time=2026-05-19T18:30:00Z"</code></pre>
+
+<p>A successful response is <code>{"status":"ok","id":N}</code>. Any other response will include a <code>message</code> field describing the problem.</p>
+
+<h2>Configuring the Wifi router</h2>
+
+<p>The router reads GPS data and POSTs it to the ingest endpoint once per minute via a cron job.</p>
+
+<h3>1. Enable GPS on the router</h3>
+
+<p>Connect to the router admin UI on the local Wi-Fi and navigate to <strong>Services → GPS</strong>. Enable GPS and confirm a fix is acquired before continuing.</p>
+
+<p>To verify from the command line (step 2 first):</p>
+
+<pre><code>ubus call gpsd position</code></pre>
+
+<p>The response includes a <code>fix_curr_mode</code> field. A value of <code>2</code> means a 2D fix; <code>3</code> means a 3D fix. Values below <code>2</code> mean no valid fix — wait until this is ≥ 2 before relying on positions.</p>
+
+<h3>2. SSH into the router</h3>
+
+<pre><code>ssh root@192.168.1.1</code></pre>
+
+<h3>3. Create the <code>sendgps.sh</code> script</h3>
+
+<p>Download the ready-to-use script — the site URL and API key are already filled in for you:</p>
+
+<p><a class="button button-primary" href="{{DOWNLOAD_URL}}" download="sendgps.sh">&#11015; Download sendgps.sh</a></p>
+
+<p>Copy it onto the router, for example with <code>scp</code> from your computer:</p>
+
+<pre><code>scp sendgps.sh root@192.168.1.1:/home/root/sendgps.sh</code></pre>
+
+<p>Or create it manually on the router with <code>vi /home/root/sendgps.sh</code> and paste the contents of the downloaded file.</p>
+
+<h3>4. Make the script executable</h3>
+
+<pre><code>chmod +x /home/root/sendgps.sh</code></pre>
+
+<h3>5. Test the script manually</h3>
+
+<p>Run it once and confirm you get <code>{"status":"ok",...}</code> from the server:</p>
+
+<pre><code>sh /home/root/sendgps.sh</code></pre>
+
+<h3>6. Add a cron job</h3>
+
+<pre><code>crontab -e</code></pre>
+
+<p>Add this line to run the script every minute:</p>
+
+<pre><code>*/1 * * * * /home/root/sendgps.sh</code></pre>
+
+<p>Save and exit. The router will now POST a position every minute whenever it has a valid GPS fix and a cellular/internet connection.</p>
+
+<h3>vi quick reference</h3>
+
+<table>
+  <tr><th>Command</th><th>Action</th></tr>
+  <tr><td><code>i</code></td><td>Enter insert mode</td></tr>
+  <tr><td><code>Esc</code> then <code>:wq</code> + Enter</td><td>Save and exit</td></tr>
+  <tr><td><code>Esc</code> then <code>:q!</code> + Enter</td><td>Exit without saving</td></tr>
+</table>

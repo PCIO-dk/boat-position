@@ -1,0 +1,738 @@
+# Copyright (C) 2026 PCIO
+# This file is distributed under the GPL2 license.
+# https://www.gnu.org/licenses/gpl-2.0.html
+#
+
+#, fuzzy, fuzzy, fuzzy, fuzzy, fuzzy
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Boat Position 1.3.0\n"
+"Report-Msgid-Bugs-To: https://www.pcio.dk/\n"
+"POT-Creation-Date: 2026-07-04 11:35+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: boat-position\n"
+"X-Generator: Poedit 3.9\n"
+
+#. Plugin Name of the plugin
+msgid "Boat Position"
+msgstr ""
+
+#. Description of the plugin
+msgid "Tracks and displays the boat's GPS position. Receives positions from the boat's router, stores them in the database, and provides a live map and voyage logbook."
+msgstr ""
+
+#. Author of the plugin
+msgid "PCIO"
+msgstr ""
+
+# ── Admin settings ────────────────────────────────────────────────────────────
+#: includes/class-pcio-bp-settings.php
+msgid "Settings"
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "About"
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "Boat Position Settings"
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "Boat Position: About"
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "API"
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "API Key"
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "Save API Key"
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "(defined in wp-config.php)"
+msgstr ""
+
+#. translators: %1$s and %2$s are code constant/file names
+#: includes/class-pcio-bp-settings.php
+msgid "Remove the %1$s constant from %2$s to manage the key here instead."
+msgstr ""
+
+#. translators: %s is the field name
+#: includes/class-pcio-bp-settings.php
+msgid "Secret key sent by the router in the %s field. Use a long random string."
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "About page not found."
+msgstr ""
+
+# ── REST API errors ───────────────────────────────────────────────────────────
+#: includes/class-pcio-bp-rest-query.php
+msgid "You must be logged in."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-query.php
+msgid "You do not have permission to edit trips."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-query.php
+msgid "No position data available."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-query.php includes/class-pcio-bp-rest-ingest.php
+msgid "Trip not found."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-query.php
+msgid "Name is required."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-query.php
+msgid "Invalid coordinates."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-query.php
+msgid "Harbour not found."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-query.php
+msgid "Invalid trip ids."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-query.php
+msgid "Plan not found."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-query.php
+msgid "Failed to create plan."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-query.php
+msgid "Waypoint not found."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-query.php
+msgid "Name cannot be empty."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-ingest.php
+msgid "API key not configured on the server."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-ingest.php
+msgid "Unauthorized."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-ingest.php
+msgid "Invalid or missing fields: lat, lon, speed (numeric) and gps_time (ISO 8601) are required."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-ingest.php
+msgid "lat out of range (-90 to 90)."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-ingest.php
+msgid "lon out of range (-180 to 180)."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-ingest.php
+msgid "speed cannot be negative."
+msgstr ""
+
+#: includes/class-pcio-bp-rest-ingest.php
+msgid "Failed to store position."
+msgstr ""
+
+# ── Live map template ─────────────────────────────────────────────────────────
+#: templates/boat-map.php
+msgid "Boat Tracker"
+msgstr ""
+
+#: templates/boat-map.php templates/history.php templates/plan.php
+msgid "Back to website"
+msgstr ""
+
+#: templates/boat-map.php templates/plan.php
+msgid "Logbook"
+msgstr ""
+
+#: templates/boat-map.php templates/plan.php
+msgid "Plans"
+msgstr ""
+
+#: templates/boat-map.php
+msgid "Speed"
+msgstr ""
+
+#: templates/boat-map.php
+msgid "State"
+msgstr ""
+
+#: templates/boat-map.php
+msgid "Since"
+msgstr ""
+
+#: templates/boat-map.php
+msgid "Duration"
+msgstr ""
+
+# ── History / logbook template ────────────────────────────────────────────────
+#: templates/history.php
+msgid "Boat Logbook &amp; History"
+msgstr ""
+
+#: templates/history.php
+msgid "All Trips"
+msgstr ""
+
+#: templates/history.php
+msgid "⇔ Merge selected trips"
+msgstr ""
+
+#: templates/history.php
+msgid "Go to live view"
+msgstr ""
+
+#: templates/history.php
+msgid "Actual route"
+msgstr ""
+
+#: templates/history.php
+msgid "Estimated (no data)"
+msgstr ""
+
+#: templates/history.php
+msgid "Edit harbour names"
+msgstr ""
+
+#: templates/history.php
+msgid "Delete trip"
+msgstr ""
+
+#: templates/history.php
+msgid "Route"
+msgstr ""
+
+#: templates/history.php
+msgid "Distance"
+msgstr ""
+
+#: templates/history.php
+msgid "Date"
+msgstr ""
+
+#: templates/history.php
+msgid "Start harbour"
+msgstr ""
+
+#: templates/history.php
+msgid "End harbour"
+msgstr ""
+
+#: templates/history.php
+msgid "(unknown)"
+msgstr ""
+
+#: templates/history.php
+msgid "Detect from current location"
+msgstr ""
+
+#: templates/history.php templates/plan.php
+msgid "Save"
+msgstr ""
+
+#: templates/history.php templates/plan.php
+msgid "Cancel"
+msgstr ""
+
+# ── Voyage plans template ─────────────────────────────────────────────────────
+#: templates/plan.php
+msgid "Voyage Plans"
+msgstr ""
+
+#: templates/plan.php
+msgid "Live map"
+msgstr ""
+
+#: templates/plan.php
+msgid "+ New plan"
+msgstr ""
+
+#: templates/plan.php
+msgid "New voyage plan"
+msgstr ""
+
+#: templates/plan.php
+msgid "Title"
+msgstr ""
+
+#: templates/plan.php
+msgid "e.g. Summer 2026 – Denmark to Norway"
+msgstr ""
+
+#: templates/plan.php
+msgid "Notes"
+msgstr ""
+
+#: templates/plan.php
+msgid "Optional notes"
+msgstr ""
+
+#: templates/plan.php
+msgid "Create"
+msgstr ""
+
+#: templates/plan.php
+msgid "No voyage plans yet."
+msgstr ""
+
+#: templates/plan.php
+msgid "Edit plan title"
+msgstr ""
+
+#: templates/plan.php
+msgid "Waypoint"
+msgstr ""
+
+#: templates/plan.php
+msgid "ETA"
+msgstr ""
+
+#: templates/plan.php
+msgid "Days"
+msgstr ""
+
+#: templates/plan.php
+msgid "No waypoints in this plan yet."
+msgstr ""
+
+#: templates/plan.php
+msgid "+ Add waypoint"
+msgstr ""
+
+#: templates/plan.php
+msgid "Pick existing harbour or waypoint"
+msgstr ""
+
+#: templates/plan.php
+msgid "Type to search…"
+msgstr ""
+
+#: templates/plan.php
+msgid "Name"
+msgstr ""
+
+#: templates/plan.php
+msgid "Harbour or waypoint name"
+msgstr ""
+
+#: templates/plan.php
+msgid "Latitude"
+msgstr ""
+
+#: templates/plan.php
+msgid "Longitude"
+msgstr ""
+
+#: templates/plan.php
+msgid "Add"
+msgstr ""
+
+# ── JavaScript strings (injected via wp_add_inline_script) ───────────────────
+#: includes/class-pcio-bp-plugin.php
+msgid "Trips on {date}"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "No trips on {date}"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "No trips found"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Start"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "End"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "{count} trips selected"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "No trip position available."
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Could not detect harbour: "
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "\\u21d4 Merge {count} selected trips"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Merge {count} trips into one?"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Earliest:"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Latest:"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "The earliest trip absorbs the others. This cannot be undone."
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Merge failed."
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Save failed."
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Delete this logbook entry?"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Are you absolutely sure? This cannot be undone."
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Delete failed."
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "No data"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Stopped"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Delete"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Delete \"{name}\"?"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Visible on map – click to hide"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Hidden from map – click to show"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Delete plan"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Edit waypoints"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "View waypoints"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "(Untitled)"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Delete plan \"{title}\" and all its waypoints?"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Today"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Edit"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Rebase from here"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Drag to reorder"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Shift"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "and all following waypoints by"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "days"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Apply"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "(positive = later, negative = earlier)"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Delete waypoint \"{name}\"?"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "(plan)"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Total distance"
+msgstr ""
+
+# ── History ───────────────────────────────────────────────────────────
+# history.js
+#: assets/history.js
+msgid "Trips on {date}"
+msgstr ""
+
+#: assets/history.js
+msgid "No trips on {date}"
+msgstr ""
+
+#: assets/history.js
+msgid "No trips found"
+msgstr ""
+
+#: assets/history.js
+msgid "Start"
+msgstr ""
+
+#: assets/history.js
+msgid "End"
+msgstr ""
+
+#: assets/history.js
+msgid "{count} trips selected"
+msgstr ""
+
+#: assets/history.js
+msgid "No trip position available."
+msgstr ""
+
+#: assets/history.js
+msgid "Could not detect harbour: "
+msgstr ""
+
+#: assets/history.js
+msgid "⇔ Merge {count} selected trips"
+msgstr ""
+
+#: assets/history.js
+msgid "Merge {count} trips into one?"
+msgstr ""
+
+#: assets/history.js
+msgid "Earliest:"
+msgstr ""
+
+#: assets/history.js
+msgid "Latest:"
+msgstr ""
+
+#: assets/history.js
+msgid "The earliest trip absorbs the others. This cannot be undone."
+msgstr ""
+
+#: assets/history.js
+msgid "Merge failed."
+msgstr ""
+
+#: assets/history.js
+msgid "Save failed."
+msgstr ""
+
+# boat-map.js
+#: assets/boat-map.js
+msgid "No data"
+msgstr ""
+
+#: assets/boat-map.js
+msgid "Stopped"
+msgstr ""
+
+#: assets/boat-map.js
+msgid "Delete \"{name}\"?"
+msgstr ""
+
+# plan.js
+#: assets/plan.js
+msgid "Visible on map – click to hide"
+msgstr ""
+
+#: assets/plan.js
+msgid "Hidden from map – click to show"
+msgstr ""
+
+#: assets/plan.js
+msgid "Delete plan"
+msgstr ""
+
+#: assets/plan.js
+msgid "Edit waypoints"
+msgstr ""
+
+#: assets/plan.js
+msgid "View waypoints"
+msgstr ""
+
+#: assets/plan.js
+msgid "(Untitled)"
+msgstr ""
+
+#: assets/plan.js
+msgid "Delete plan \"{title}\" and all its waypoints?"
+msgstr ""
+
+#: assets/plan.js
+msgid "Rebase from here"
+msgstr ""
+
+#: assets/plan.js
+msgid "Drag to reorder"
+msgstr ""
+
+#: assets/plan.js
+msgid "Shift"
+msgstr ""
+
+#: assets/plan.js
+msgid "and all following waypoints by"
+msgstr ""
+
+#: assets/plan.js
+msgid "days"
+msgstr ""
+
+#: assets/plan.js
+msgid "Apply"
+msgstr ""
+
+#: assets/plan.js
+msgid "(positive = later, negative = earlier)"
+msgstr ""
+
+#: assets/plan.js
+msgid "Delete waypoint \"{name}\"?"
+msgstr ""
+
+#: assets/plan.js
+msgid "(plan)"
+msgstr ""
+
+# ── Blog integration ─────────────────────────────────────────────────
+#: includes/class-pcio-bp-blog.php
+msgid "Boat Log"
+msgstr ""
+
+#: includes/class-pcio-bp-blog.php
+msgid "Boat position"
+msgstr ""
+
+#: includes/class-pcio-bp-blog.php
+msgid "No location set"
+msgstr ""
+
+#: includes/class-pcio-bp-blog.php
+msgid "Use current boat position"
+msgstr ""
+
+#: includes/class-pcio-bp-blog.php
+msgid "Clear"
+msgstr ""
+
+#: includes/class-pcio-bp-blog.php
+msgid "Fetching current position…"
+msgstr ""
+
+#: includes/class-pcio-bp-blog.php
+msgid "No boat position available yet."
+msgstr ""
+
+#: includes/class-pcio-bp-blog.php
+msgid "View on map"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Read"
+msgstr ""
+
+#: includes/class-pcio-bp-plugin.php
+msgid "Write blog here"
+msgstr ""
+
+#: templates/boat-map.php
+msgid "Blog"
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "Route editors updated."
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "Route editors"
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "Grant permission to manage routes, harbours and voyage plans. Only users who can already author posts (Author or higher) are listed. Administrators always have access."
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "User"
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "Role"
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "Manage routes"
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "No eligible users found."
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "Save route editors"
+msgstr ""
+
+#: includes/class-pcio-bp-settings.php
+msgid "You do not have permission to do this."
+msgstr ""
+

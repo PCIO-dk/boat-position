@@ -1,0 +1,104 @@
+<h1>Båd GPS Tracker</h1>
+
+<p>Et WordPress-plugin der modtager live GPS-positioner fra en båd, gemmer dem i en database og viser et live-kort samt en historisk logbog.</p>
+
+<h2>Sider</h2>
+
+<p>
+  <em>Live-kort — <code>/boat-position/map</code></em>
+</p>
+
+<p>
+  <em>Logbog — <code>/boat-position/history</code></em>
+</p>
+
+<h2>REST API-endepunkter</h2>
+
+<h3>POST <code>/wp-json/boat-position/v1/ingest</code> — Indsend position</h3>
+
+<p>Kaldes af routeren på båden. Kræver API-nøgle-godkendelse.</p>
+
+<p><strong>POST-felter:</strong></p>
+
+<table>
+  <tr><th>Felt</th><th>Type</th><th>Beskrivelse</th></tr>
+  <tr><td><code>apikey</code></td><td>string</td><td>Hemmelig nøgle — indstil under Indstillinger → Båd GPS eller som <code>PCIO_BOAT_POSITION_API_KEY</code> i <code>wp-config.php</code></td></tr>
+  <tr><td><code>lat</code></td><td>float</td><td>Breddegrad (−90 til 90)</td></tr>
+  <tr><td><code>lon</code></td><td>float</td><td>Længdegrad (−180 til 180)</td></tr>
+  <tr><td><code>speed</code></td><td>float</td><td>Fart i knob (≥ 0)</td></tr>
+  <tr><td><code>course</code></td><td>float</td><td>Kurs i grader (valgfrit, standard 0.0)</td></tr>
+  <tr><td><code>gps_time</code></td><td>string</td><td>GPS-tidsstempel (ISO 8601 / UTC)</td></tr>
+</table>
+
+<p><strong>Svar:</strong> <code>200 OK</code> med <code>{"status":"ok","id":N}</code> ved succes, eller et WP REST-fejlobjekt ved fejl.</p>
+
+<h3>GET <code>/wp-json/boat-position/v1/latest</code> — Aktuel position</h3>
+
+<p>Returnerer den seneste positionsregistrering som JSON.</p>
+
+<pre><code>{
+  "lat": 55.123,
+  "lon": 12.456,
+  "speed": 5.2,
+  "course": 270.0,
+  "time": 1716400000
+}</code></pre>
+
+<h3>GET <code>/wp-json/boat-position/v1/trips</code> — Sejlturdata</h3>
+
+<table>
+  <tr><th>Rute</th><th>Beskrivelse</th></tr>
+  <tr><td><code>GET /trips</code></td><td>Alle afsluttede sejlture, nyeste først</td></tr>
+  <tr><td><code>GET /trips/active-dates</code></td><td>Array af <code>ÅÅÅÅ-MM-DD</code>-strenge med mindst én sejltur (bruges til at fremhæve kalenderdage)</td></tr>
+  <tr><td><code>GET /trips/{id}/points</code></td><td>Alle etapper med waypoints for en sejltur (bruges til at tegne ruten på kortet)</td></tr>
+  <tr><td><code>POST /trips/{id}/harbours</code></td><td>Opdater havnenavne for en sejltur (kræver WP-redaktørrolle)</td></tr>
+  <tr><td><code>POST /trips/merge</code></td><td>Flet to sejlture til én (kræver WP-redaktørrolle)</td></tr>
+  <tr><td><code>GET /harbours</code></td><td>Alle kendte havne med koordinater og radius</td></tr>
+  <tr><td><code>GET /legs/{id}/points</code></td><td>Rå waypoints for en enkelt etape</td></tr>
+</table>
+
+<h2>Sejltur-maskinens tilstandsmaskine</h2>
+
+<p>Klassen <code>class-pcio-bp-trip-engine</code> behandler rå positioner (hvor <code>leg_id IS NULL</code>) og tildeler dem til sejlture og etapper.</p>
+
+<img src="{{PLUGIN_URL}}assets/state-machine.jpg" alt="Diagram over sejltur-maskinens tilstandsmaskine" style="max-width:100%;border:1px solid #ddd;border-radius:4px;padding:8px;background:#fff;">
+
+<p><strong>Justeringskonstanter</strong> (definer i <code>wp-config.php</code> for at tilsidesætte standardværdier):</p>
+
+<table>
+  <tr><th>Konstant</th><th>Standard</th><th>Beskrivelse</th></tr>
+  <tr><td><code>PCIO_BP_SPEED_UNDERWAY_KN</code></td><td><code>1.5</code></td><td>Knob over hvilken båden anses for at sejle</td></tr>
+  <tr><td><code>PCIO_BP_STOP_CONFIRM_COUNT</code></td><td><code>3</code></td><td>Antal på hinanden følgende langsomme aflæsninger nødvendige for at afslutte en sejltur</td></tr>
+  <tr><td><code>PCIO_BP_NO_DATA_GAP_SECS</code></td><td><code>180</code></td><td>Pause (sekunder) der udløser en estimeret etape</td></tr>
+  <tr><td><code>PCIO_BP_TRIP_END_GAP_SECS</code></td><td><code>28800</code></td><td>Pause (sekunder) der lukker sejlturen helt (8 t)</td></tr>
+  <tr><td><code>PCIO_BP_BATCH_SIZE</code></td><td><code>500</code></td><td>Maks. positioner der behandles pr. kald</td></tr>
+</table>
+
+<h2>Databasetabeller</h2>
+
+<p>Alle tabeller bruger WordPress-tabelpræfikset (standard <code>wp_</code>).</p>
+
+<table>
+  <tr><th>Tabel</th><th>Beskrivelse</th></tr>
+  <tr><td><code>wp_boat_positions</code></td><td>Rå GPS-positioner (<code>lat</code>, <code>lon</code>, <code>speed</code>, <code>course</code>, <code>gps_time_utc</code>, <code>leg_id</code>)</td></tr>
+  <tr><td><code>wp_boat_trips</code></td><td>Én række pr. sejltur (<code>started_at</code>, <code>ended_at</code>, <code>distance_nm</code>, <code>harbour_start</code>, <code>harbour_end</code>, <code>state</code>)</td></tr>
+  <tr><td><code>wp_boat_legs</code></td><td>Individuelle etapper inden for en sejltur; estimerede etapper markeres til visning som stiplede linjer</td></tr>
+  <tr><td><code>wp_boat_harbours</code></td><td>Kendte havne brugt til at mærke sejlturenes start-/slutpunkter</td></tr>
+</table>
+
+<h2>Konfiguration</h2>
+
+<p>API-nøglen kan indstilles under <strong>Indstillinger → Båd GPS</strong>, eller hardkodes i <code>wp-config.php</code>:</p>
+
+<pre><code>define( 'PCIO_BOAT_POSITION_API_KEY', 'din-hemmelige-nøgle' );</code></pre>
+
+<p>Når konstanten er defineret, vises indstillingsfeltet som skrivebeskyttet og databaseindstillingen ignoreres.</p>
+
+<h2>Sider (oversigt)</h2>
+
+<ul>
+  <li><strong>Live-kort</strong> — <code>/boat-position/map</code> — Leaflet-kort med OpenStreetMap/OpenSeaMap. Henter <code>/latest</code> hvert 30. sekund og viser en roterende pilikon under sejlads eller en prik ved stilstand.</li>
+  <li><strong>Logbog</strong> — <code>/boat-position/history</code> — Kalender-sidebjælke fremhæver dage med registrerede sejlture. Klik på en dag for at indlæse sejlturenes ruter på kortet. WordPress-redaktører kan opdatere havnenavne og flette sejlture direkte.</li>
+</ul>
+
+<p>Begge URL'er registreres automatisk ved aktivering af pluginnet. Hvis de returnerer 404, gå til <strong>Indstillinger → Permalinks</strong> og klik <strong>Gem ændringer</strong> for at rydde omskrivningsreglerne.</p>

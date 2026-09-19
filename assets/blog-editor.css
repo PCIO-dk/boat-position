@@ -1,0 +1,20 @@
+/* Boat-log location picker — post editor meta box */
+#pcio-bp-meta-map {
+    width: 100%;
+    height: 220px;
+    margin-bottom: 8px;
+    border: 1px solid #c3c4c7;
+    border-radius: 3px;
+}
+
+.pcio-bp-meta-coords {
+    margin: 4px 0 8px;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 12px;
+    color: #50575e;
+}
+
+#pcio-bp-meta .button-link {
+    margin-left: 8px;
+    color: #b32d2e;
+}

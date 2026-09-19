@@ -1,0 +1,464 @@
+/* plan.css – Voyage plans page (/boat-position/plans) */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    background: #f0f2f5;
+    color: #222;
+}
+
+/* ── Nav bar (mirrors boat-map.css) ─────────────────────────────── */
+.pcio-bp-nav {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+.pcio-bp-nav a {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(4px);
+    border: 1.5px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    color: #555;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.pcio-bp-nav-exit { padding: 5px 11px; font-size: 14px; }
+.pcio-bp-nav-exit:hover  { background: #ffe8e8 !important; border-color: #c00 !important; color: #c00 !important; }
+.pcio-bp-nav-switch { border-color: #0057b8; color: #0057b8; }
+.pcio-bp-nav-switch:hover { background: #e8f2ff !important; }
+
+/* ── Page layout ─────────────────────────────────────────────────── */
+#plan-wrap {
+    max-width: 860px;
+    margin: 68px auto 48px;
+    padding: 0 16px;
+}
+
+/* ── Plan picker bar (kept for reference; no longer used) ────────────────────── */
+
+.plan-notes-text {
+    margin: 8px 0 0;
+    color: #666;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-line;
+}
+.plan-notes-text:empty { display: none; }
+
+/* ── Plan list view ──────────────────────────────────────────────── */
+#plan-list-view {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+#plan-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    gap: 12px;
+}
+
+.view-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #222;
+}
+
+/* ── Plan list rows ──────────────────────────────────────────────── */
+.plan-list-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.07);
+    transition: box-shadow 0.15s;
+}
+.plan-list-row:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+.plan-row-name {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    color: #222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.plan-row-acts {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+/* ── Visibility toggle button ────────────────────────────────────── */
+.btn-vis {
+    background: none;
+    border: none;
+    padding: 3px 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    line-height: 0;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+}
+.btn-vis svg { display: block; }
+.btn-vis-on  { color: #0057b8; }
+.btn-vis-off { color: #bbb; }
+.btn-vis:hover { background: #f0f0f0; }
+.btn-vis-off:hover { color: #888; }
+
+.plan-vis-dot       { display: inline-flex; align-items: center; line-height: 0; }
+.plan-vis-dot.vis-on  { color: #0057b8; }
+.plan-vis-dot.vis-off { color: #bbb; }
+
+/* ── Waypoint view header ────────────────────────────────────────── */
+#wp-view-header {
+    margin-bottom: 14px;
+}
+
+#wp-view-header-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-back {
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    color: #555;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: center;
+}
+.btn-back:hover { background: #f5f5f5; border-color: #aaa; }
+
+#plan-title-area {
+    flex: 1;
+    min-width: 0;
+}
+
+#plan-title-display {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.plan-title-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #222;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.btn-edit-title {
+    font-size: 15px !important;
+    padding: 2px 6px !important;
+    flex-shrink: 0;
+}
+
+#plan-title-edit input[type="text"] {
+    width: 100%;
+    border: 1.5px solid #0057b8;
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    outline: none;
+    color: #222;
+}
+
+#plan-title-edit textarea {
+    display: block;
+    width: 100%;
+    margin-top: 4px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 7px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    outline-color: #0057b8;
+    resize: vertical;
+}
+
+
+/* ── Buttons ─────────────────────────────────────────────────────── */
+.pcio-bp-btn-primary,
+.pcio-bp-btn-secondary {
+    border: none;
+    border-radius: 5px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.pcio-bp-btn-primary        { background: #0057b8; color: #fff; }
+.pcio-bp-btn-primary:hover  { background: #004da5; }
+.pcio-bp-btn-secondary      { background: #f0f0f0; color: #444; border: 1px solid #ddd; }
+.pcio-bp-btn-secondary:hover{ background: #e4e4e4; }
+.btn-sm { padding: 3px 9px !important; font-size: 12px !important; }
+
+.btn-icon {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 3px 7px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #666;
+    line-height: 1.3;
+}
+.btn-icon:hover   { background: #f5f5f5; }
+.btn-danger       { color: #b00 !important; border-color: #f5c0c0 !important; }
+.btn-danger:hover { background: #ffe8e8 !important; }
+.btn-rebase       { color: #b06000 !important; border-color: #f5dfa0 !important; font-size: 13px !important; }
+.btn-rebase:hover { background: #fff7e0 !important; }
+.btn-text {
+    background: none;
+    border: 1px solid #0057b8;
+    border-radius: 5px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #0057b8;
+    cursor: pointer;
+    font-family: inherit;
+}
+.btn-text:hover { background: #e8f2ff; }
+
+/* ── Empty / status messages ─────────────────────────────────────── */
+.plan-empty-msg {
+    text-align: center;
+    color: #bbb;
+    padding: 32px 16px;
+    font-size: 14px;
+}
+#plan-empty {
+    text-align: center;
+    padding: 60px 16px 32px;
+}
+
+/* ── Form boxes ──────────────────────────────────────────────────── */
+.plan-form-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+.plan-form-box h3,
+.plan-form-box h4 {
+    margin: 0 0 14px;
+    font-size: 15px;
+    color: #333;
+    font-weight: 700;
+}
+.form-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #999;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.form-label input[type="text"],
+.form-label input[type="number"],
+.form-label input[type="date"],
+.form-label textarea {
+    display: block;
+    width: 100%;
+    margin-top: 4px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 7px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    outline-color: #0057b8;
+}
+.form-label textarea { resize: vertical; }
+.form-btns { display: flex; gap: 8px; margin-top: 14px; }
+.add-wp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px; }
+
+/* ── Add waypoint area ───────────────────────────────────────────── */
+#add-wp-area {
+    padding: 12px 14px;
+    border-top: 1px solid #f0f0f0;
+}
+#add-wp-form {
+    margin-top: 12px;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 16px;
+    background: #fafafa;
+}
+.add-wp-search-row {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+.add-wp-search-row input[type="text"] {
+    font-size: 14px !important;
+    padding: 8px 10px !important;
+    background: #fff;
+}
+
+/* ── Waypoints section ───────────────────────────────────────────── */
+#wp-section {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    overflow: hidden;
+    margin-bottom: 14px;
+}
+#wp-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+#wp-table thead th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #bbb;
+    padding: 11px 14px 9px;
+    border-bottom: 1px solid #f0f0f0;
+    font-weight: 700;
+    white-space: nowrap;
+}
+#wp-table tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 13px;
+    vertical-align: middle;
+}
+#wp-table tbody tr:last-of-type td { border-bottom: none; }
+#wp-table tbody tr:hover { background: #fafcff; }
+
+/* ── Drag-and-drop handles ────────────────────────────────────────── */
+.col-drag-handle {
+    color: #ccc;
+    font-size: 13px;
+    letter-spacing: -2px;
+    user-select: none;
+    text-align: center;
+    width: 24px;
+}
+tr.wp-row[draggable="true"] { cursor: grab; }
+tr.wp-row[draggable="true"]:active { cursor: grabbing; }
+.wp-row.dnd-dragging { opacity: 0.35; }
+.wp-row.dnd-over td { background: #e8f2ff !important; }
+.wp-row.dnd-over td:first-child { box-shadow: inset 3px 0 0 #0057b8; }
+
+/* Column styles */
+.col-order { width: 32px; color: #ccc; font-size: 12px; }
+.col-name  { font-weight: 600; }
+.col-eta   { white-space: nowrap; color: #555; }
+.col-days  { white-space: nowrap; }
+.col-dist  { white-space: nowrap; text-align: right; color: #555; }
+.col-acts  { white-space: nowrap; text-align: right; }
+.col-acts button + button { margin-left: 3px; }
+.dist-val  { font-size: 12px; }
+.wp-total-dist {
+    text-align: right;
+    font-size: 13px;
+    font-weight: 600;
+    color: #0057b8;
+    margin: 4px 0 12px;
+    padding-right: 4px;
+}
+
+/* ── Row inline edit inputs ──────────────────────────────────────── */
+#wp-table td input[type="text"],
+#wp-table td input[type="date"] {
+    border: 1px solid #0057b8;
+    border-radius: 4px;
+    padding: 4px 7px;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    width: 100%;
+}
+
+/* ── Past rows (ETA already passed) ─────────────────────────────── */
+.wp-past { opacity: 0.50; }
+.wp-past .col-name { text-decoration: line-through; color: #999; }
+
+/* ── Day badges ──────────────────────────────────────────────────── */
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.badge-past  { background: #f0f0f0; color: #aaa; }
+.badge-today { background: #0057b8; color: #fff; }
+.days-val    { font-size: 12px; color: #888; }
+.days-future { font-size: 12px; color: #0057b8; font-weight: 600; }
+
+/* ── Rebase inline form row ──────────────────────────────────────── */
+.rebase-row td {
+    background: #fffbef;
+    padding: 10px 14px;
+    border-bottom: 1px solid #f0e8b0;
+    font-size: 13px;
+    line-height: 2;
+}
+.rebase-row input[type="number"] {
+    border: 1px solid #c97a00;
+    border-radius: 4px;
+    padding: 3px 7px;
+    font-size: 13px;
+    font-family: inherit;
+    width: 62px;
+    text-align: center;
+}
+.rebase-hint { color: #aaa; font-size: 11px; margin-left: 8px; }
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 580px) {
+    .add-wp-grid { grid-template-columns: 1fr; }
+    .col-acts    { display: none !important; }
+    #plan-wrap   { margin-top: 58px; }
+    .plan-title-text { font-size: 15px; }
+    #wp-view-header-inner { flex-direction: column; }
+}
+

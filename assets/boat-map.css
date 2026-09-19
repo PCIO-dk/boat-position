@@ -1,0 +1,314 @@
+html, body {
+    margin:0;
+    padding:0;
+    height:100%;
+}
+
+#map {
+    width:100%;
+    height:100vh;
+}
+
+#boat-info {
+    position: absolute;
+    bottom: 24px;
+    right: 10px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(4px);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    min-width: 130px;
+    pointer-events: none;
+}
+
+#boat-info .label {
+    color: #666;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#boat-info .value {
+    font-weight: 600;
+    color: #0057b8;
+}
+
+/* ── Page navigation bar ──────────────────────────────────────────── */
+.pcio-bp-nav {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+.pcio-bp-nav a {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(4px);
+    border: 1.5px solid #ccc;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #555;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.pcio-bp-nav-exit { padding: 5px 11px; font-size: 14px; }
+.pcio-bp-nav-exit:hover { background: #ffe8e8 !important; border-color: #c00 !important; color: #c00 !important; }
+.pcio-bp-nav-switch { border-color: #0057b8; color: #0057b8; }
+.pcio-bp-nav-switch:hover { background: #e8f2ff !important; }
+
+/* ── Harbour layer toggle button ─────────────────────────────────── */
+.pcio-bp-nav-harbour {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(4px);
+    border: 1.5px solid #c97a00;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #c97a00;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.pcio-bp-nav-harbour:hover { background: #fff5e6; }
+.pcio-bp-nav-harbour.is-off {
+    border-color: #bbb;
+    color: #aaa;
+}
+.pcio-bp-nav-harbour.is-off:hover { background: #f5f5f5; }
+
+/* ── Harbour markers ──────────────────────────────────────────────────── */
+.pcio-bp-harbour-icon {
+    background: none;
+    border: none;
+}
+
+/* ── Harbour popup forms ──────────────────────────────────────────────── */
+.pcio-bp-hpopup {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    min-width: 190px;
+}
+.pcio-bp-hpopup label {
+    display: block;
+    color: #555;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+}
+.pcio-bp-hpopup input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px 7px;
+    font-size: 13px;
+    margin-top: 3px;
+    outline-color: #0057b8;
+}
+.pcio-bp-hpopup-btns {
+    display: flex;
+    gap: 6px;
+    margin-top: 9px;
+}
+.pcio-bp-btn-save,
+.pcio-bp-btn-del {
+    flex: 1;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.pcio-bp-btn-save { background: #0057b8; color: white; }
+.pcio-bp-btn-save:hover { background: #004a9e; }
+.pcio-bp-btn-del  { background: #e53e3e; color: white; }
+.pcio-bp-btn-del:hover  { background: #c53030; }
+.pcio-bp-hname { font-size: 13px; font-family: sans-serif; }
+
+/* ── Plan (voyage) layer ──────────────────────────────────────────── */
+.pcio-bp-plan-icon {
+    background: none;
+    border: none;
+}
+.pcio-bp-plan-popup {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+}
+.pcio-bp-plan-eta {
+    font-weight: 400;
+    color: #666;
+    font-size: 12px;
+    margin-top: 2px;
+}
+.pcio-bp-plan-popup-btns {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+}
+.pcio-bp-ppbtn {
+    flex: 1;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.pcio-bp-ppbtn-edit {
+    background: #0057b8;
+    color: #fff !important;
+}
+.pcio-bp-ppbtn-edit:hover  { background: #004da5; color: #fff !important; }
+.pcio-bp-ppbtn-del  {
+    background: #e53e3e;
+    color: #fff;
+}
+.pcio-bp-ppbtn-del:hover   { background: #c53030; }
+
+/* ── Map-click popup enhancements ─────────────────────────────────── */
+.pcio-bp-popup-sep {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 10px 0 8px;
+}
+.pcio-bp-popup-section-lbl {
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #bbb;
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+/* Date input inside the map popup */
+.pcio-bp-hpopup input[type="date"] {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px 7px;
+    font-size: 13px;
+    margin-top: 3px;
+    font-family: inherit;
+    outline-color: #2a9d2a;
+}
+/* Coordinate header in the map-click popup */
+.pcio-bp-popup-coords {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+    font-size: 11px;
+    color: #888;
+    background: #f5f5f5;
+    border-radius: 4px;
+    padding: 3px 7px;
+    margin-bottom: 9px;
+    letter-spacing: 0.3px;
+}
+
+/* ── Blog layer toggle button ─────────────────────────────────────── */
+.pcio-bp-nav-blog {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(4px);
+    border: 1.5px solid #8e44ad;
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #8e44ad;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.pcio-bp-nav-blog:hover { background: #f6edfb; }
+.pcio-bp-nav-blog.is-off { border-color: #bbb; color: #aaa; }
+.pcio-bp-nav-blog.is-off:hover { background: #f5f5f5; }
+
+/* ── Blog markers + popup ─────────────────────────────────────────── */
+.pcio-bp-blog-icon {
+    background: none;
+    border: none;
+}
+.pcio-bp-blog-popup {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    min-width: 160px;
+    max-width: 220px;
+}
+.pcio-bp-blog-thumb {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 7px;
+}
+.pcio-bp-blog-popup strong {
+    display: block;
+    margin-bottom: 7px;
+    line-height: 1.3;
+}
+.pcio-bp-blog-read {
+    display: inline-block;
+    background: #8e44ad;
+    color: #fff !important;
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+.pcio-bp-blog-read:hover { background: #7a3a96; }
+.pcio-bp-blog-here,
+.pcio-bp-blog-here:link,
+.pcio-bp-blog-here:visited,
+.pcio-bp-blog-here:hover,
+.pcio-bp-blog-here:focus {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+}
+
+/* ── Location highlight pulse (arriving from a blog post) ─────────── */
+.pcio-bp-pulse {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(142, 68, 173, 0.45);
+    box-shadow: 0 0 0 rgba(142, 68, 173, 0.5);
+    animation: pcio-bp-pulse 1.4s ease-out infinite;
+}
+@keyframes pcio-bp-pulse {
+    0%   { transform: scale(0.4); opacity: 1;   box-shadow: 0 0 0 0 rgba(142, 68, 173, 0.55); }
+    70%  { transform: scale(1.6); opacity: 0.2; box-shadow: 0 0 0 22px rgba(142, 68, 173, 0); }
+    100% { transform: scale(1.6); opacity: 0;   box-shadow: 0 0 0 0 rgba(142, 68, 173, 0); }
+}
